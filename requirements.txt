@@ -1,6 +1,21 @@
 # local package
 -e .
 
+# Webcrawling
+bs4
+requests
+
+# ML
+sklearn
+
+# Easier linting
+black
+
+# Testing
+pytest
+pytest-sugar
+pytest-cov
+
 # external requirements
 click
 Sphinx
