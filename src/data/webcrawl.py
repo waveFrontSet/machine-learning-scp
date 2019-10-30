@@ -9,7 +9,9 @@ def construct_url(scp_number):
 
 
 def filter_for_page_content(page):
-    return BeautifulSoup(page).find(name="div", attrs={"id": "page-content"})
+    return BeautifulSoup(page, features="html.parser").find(
+        name="div", attrs={"id": "page-content"}
+    )
 
 
 def crawl_for(scp_number):
