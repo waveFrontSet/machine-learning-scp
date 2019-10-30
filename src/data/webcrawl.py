@@ -1,4 +1,4 @@
-import argparse
+import click
 import requests
 
 from bs4 import BeautifulSoup
@@ -14,21 +14,14 @@ def filter_for_page_content(page):
     )
 
 
-def crawl_for(scp_number):
-    url = construct_url(scp_number)
+@click.command()
+@click.option("--number", default=2, help="Number of the SCP article to obtain.")
+def crawl_for(number):
+    url = construct_url(number)
     response = requests.get(url)
     content = filter_for_page_content(response.text)
-    return content
+    click.echo(content)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--number",
-        type=int,
-        dest="scp_number",
-        default=2,
-        help="Number of the SCP article to obtain.",
-    )
-    args = parser.parse_args()
-    print(crawl_for(args.scp_number))
+    crawl_for()
