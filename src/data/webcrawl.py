@@ -15,7 +15,7 @@ def filter_for_page_content(page):
 
 
 def split_into_label_and_text(raw_text):
-    paragraphs = raw_text.find_all("p")
+    paragraphs = raw_text.find_all("p", recursive=False)
     obj_class_p = next(p for p in paragraphs if "Object Class" in p.get_text())
     paragraphs.remove(obj_class_p)
     label = obj_class_p.contents[-1].strip().upper()
