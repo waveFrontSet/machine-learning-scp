@@ -28,7 +28,9 @@ def crawl_for(number):
     url = construct_url(number)
     response = requests.get(url)
     content = filter_for_page_content(response.text)
-    click.echo(content)
+    label, paragraphs = split_into_label_and_text(content)
+    click.echo(f"Label: {label}")
+    click.echo(f"Paragraphs: {paragraphs}")
 
 
 if __name__ == "__main__":
