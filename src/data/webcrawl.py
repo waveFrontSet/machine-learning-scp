@@ -14,6 +14,14 @@ def filter_for_page_content(page):
     )
 
 
+def split_into_label_and_text(raw_text):
+    paragraphs = raw_text.find_all("p")
+    obj_class_p = next(p for p in paragraphs if "Object Class" in p.get_text())
+    paragraphs.remove(obj_class_p)
+    label = obj_class_p.contents[-1].strip().upper()
+    return label, paragraphs
+
+
 @click.command()
 @click.option("--number", default=2, help="Number of the SCP article to obtain.")
 def crawl_for(number):
