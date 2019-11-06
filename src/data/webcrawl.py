@@ -1,3 +1,4 @@
+import os
 import click
 import requests
 
@@ -23,14 +24,17 @@ def split_into_label_and_text(raw_text):
 
 
 @click.command()
+@click.argument("filepath", type=click.Path(exists=True))
 @click.option("--number", default=2, help="Number of the SCP article to obtain.")
-def crawl_for(number):
+def crawl_for(number, filepath):
     url = construct_url(number)
     response = requests.get(url)
     content = filter_for_page_content(response.text)
     label, paragraphs = split_into_label_and_text(content)
-    click.echo(f"Label: {label}")
-    click.echo(f"Paragraphs: {paragraphs}")
+    with open(os.path.join(filepath, f"scp-{number:03d}.txt"), "w") as f:
+        f.write(label + "\n")
+        for paragraph in paragraphs:
+            f.write(paragraph.get_text() + "\n")
 
 
 if __name__ == "__main__":
