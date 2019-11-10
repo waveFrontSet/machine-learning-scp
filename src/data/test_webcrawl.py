@@ -1,6 +1,12 @@
 import pytest
+import io
 from bs4 import BeautifulSoup
-from .webcrawl import construct_url, filter_for_page_content, split_into_label_and_text
+from .webcrawl import (
+    construct_url,
+    filter_for_page_content,
+    split_into_label_and_text,
+    write_to,
+)
 
 
 TEST_PAGE = """
@@ -65,3 +71,16 @@ def test_split():
     ]
     assert expected_label == actual_label
     assert expected_content == [str(p) for p in actual_content]
+
+
+def test_write_to():
+    label = "EUCLID"
+    expected = ["p1", "p2"]
+    paragraphs = [BeautifulSoup(f"<p>{p}</p>", "html.parser") for p in expected]
+    f = io.StringIO()
+    write_to(f, label, paragraphs)
+    lines = f.getvalue().split("\n")
+    assert 4 == len(lines)
+    assert label == lines[0]
+    for i, p in enumerate(expected):
+        assert p == lines[i + 1]

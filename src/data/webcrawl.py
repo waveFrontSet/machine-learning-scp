@@ -23,6 +23,12 @@ def split_into_label_and_text(raw_text):
     return label, paragraphs
 
 
+def write_to(f, label, paragraphs):
+    f.write(label + "\n")
+    for paragraph in paragraphs:
+        f.write(paragraph.get_text() + "\n")
+
+
 @click.command()
 @click.argument("filepath", type=click.Path(exists=True))
 @click.option("--lower", default=2, help="Lower bound of SCP articles to crawl")
@@ -34,9 +40,7 @@ def crawl_for(lower, upper, filepath):
         content = filter_for_page_content(response.text)
         label, paragraphs = split_into_label_and_text(content)
         with open(os.path.join(filepath, f"scp-{number:03d}.txt"), "w") as f:
-            f.write(label + "\n")
-            for paragraph in paragraphs:
-                f.write(paragraph.get_text() + "\n")
+            write_to(f, label, paragraphs)
 
 
 if __name__ == "__main__":
