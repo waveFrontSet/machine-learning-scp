@@ -2,26 +2,11 @@ import os
 import click
 import requests
 import logging
+import logging.config
 
 from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-std_formatter = logging.Formatter(
-    "[%(asctime)s][%(levelname)-5s][%(threadName)s] - %(message)s"
-)
-warn_file_handler = logging.FileHandler("warnings.log")
-warn_file_handler.setFormatter(std_formatter)
-warn_file_handler.setLevel(logging.WARN)
-debug_file_handler = logging.FileHandler("debug.log")
-debug_file_handler.setFormatter(std_formatter)
-debug_file_handler.setLevel(logging.DEBUG)
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(std_formatter)
-console_handler.setLevel(logging.INFO)
-logger.addHandler(console_handler)
-logger.addHandler(warn_file_handler)
-logger.addHandler(debug_file_handler)
 
 
 def construct_url(scp_number):
@@ -79,6 +64,7 @@ def crawl_for(lower, upper, filepath):
 
 
 if __name__ == "__main__":
+    logging.config.fileConfig("logging_config.ini")
     logger.info("Start webcrawling...")
     crawl_for()
     logger.info("End webcrawling...")
