@@ -25,7 +25,7 @@ def split_into_label_and_text(raw_text):
     logger.debug("All paragraphs: %s", paragraphs)
     obj_class_p = next(p for p in paragraphs if "Object Class" in p.get_text())
     paragraphs.remove(obj_class_p)
-    label = obj_class_p.contents[-1].strip().upper()
+    label = obj_class_p.contents[-1].strip().upper().replace(": ", "")
     return label, paragraphs
 
 

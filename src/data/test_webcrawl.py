@@ -81,6 +81,35 @@ def test_split():
     assert expected_content == [str(p) for p in actual_content]
 
 
+def test_split_with_leading_colon():
+    test_content = BeautifulSoup(
+        """
+        <div class="image-content">
+            <p>Some caption</p>
+        </div>
+        <p><strong>Item #:</strong> SCP-xxx</p>
+        <p><strong>Object Class</strong>: Keter</p>
+        <p><strong>Special Containment Procedures:</strong> ...</p>
+        <p><strong>Description:</strong> ...</p>
+        <p>Other...</p>
+        <div class="footer">
+            <p>Links to other SCPs...</p>
+        </div>
+        """,
+        features="html.parser",
+    )
+    actual_label, actual_content = split_into_label_and_text(test_content)
+    expected_label = "KETER"
+    expected_content = [
+        "<p><strong>Item #:</strong> SCP-xxx</p>",
+        "<p><strong>Special Containment Procedures:</strong> ...</p>",
+        "<p><strong>Description:</strong> ...</p>",
+        "<p>Other...</p>",
+    ]
+    assert expected_label == actual_label
+    assert expected_content == [str(p) for p in actual_content]
+
+
 def test_write_to():
     label = "EUCLID"
     expected = ["p1", "p2"]
