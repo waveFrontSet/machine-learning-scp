@@ -4,6 +4,7 @@ import requests
 import logging
 import logging.config
 
+from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
@@ -34,6 +35,27 @@ def write_to(f, label, paragraphs):
         f.write(paragraph.get_text() + "\n")
 
 
+def crawl(filepath, number):
+    logger.info("Crawling number %d", number)
+    url = construct_url(number)
+    logger.debug("URL: %s", url)
+    response = requests.get(url)
+    logger.debug("Response: %s", response.text)
+    content = filter_for_page_content(response.text)
+    logger.debug("Content: %s", content)
+    try:
+        label, paragraphs = split_into_label_and_text(content)
+    except Exception:
+        logger.exception("Exception when splitting for number %d", number)
+        return
+    logger.info("Identified label %s", label)
+    logger.debug("Paragraphs: %s", paragraphs)
+    if label not in ("SAFE", "EUCLID", "KETER"):
+        logger.warn("Unknown label %s for number %d", label, number)
+    with open(os.path.join(filepath, f"scp-{number:03d}.txt"), "w") as f:
+        write_to(f, label, paragraphs)
+
+
 @click.command()
 @click.argument("filepath", type=click.Path(exists=True))
 @click.option("--lower", default=2, help="Lower bound of SCP articles to crawl")
@@ -42,25 +64,11 @@ def crawl_for(lower, upper, filepath):
     logger.debug(
         "Called with lower = %s, upper = %s, filepath = %s", lower, upper, filepath
     )
-    for number in range(lower, upper):
-        logger.info("Crawling number %d", number)
-        url = construct_url(number)
-        logger.debug("URL: %s", url)
-        response = requests.get(url)
-        logger.debug("Response: %s", response.text)
-        content = filter_for_page_content(response.text)
-        logger.debug("Content: %s", content)
-        try:
-            label, paragraphs = split_into_label_and_text(content)
-        except Exception:
-            logger.exception("Exception when splitting for number %d", number)
-            continue
-        logger.info("Identified label %s", label)
-        logger.debug("Paragraphs: %s", paragraphs)
-        if label not in ("SAFE", "EUCLID", "KETER"):
-            logger.warn("Unknown label %s for number %d", label, number)
-        with open(os.path.join(filepath, f"scp-{number:03d}.txt"), "w") as f:
-            write_to(f, label, paragraphs)
+    with ThreadPoolExecutor(max_workers=64) as executor:
+        executor.map(
+            crawl, (filepath for _ in range(lower, upper)), range(lower, upper)
+        )
+    logger.debug("End...")
 
 
 if __name__ == "__main__":
