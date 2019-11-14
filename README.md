@@ -19,7 +19,7 @@ About SCPs
 ------------
 
 The web site http://www.scp-wiki.net/ is a site for collaborative writing. The
-fictional SCP (short for "Secure, Contain, Protect) foundation aims to contain
+fictional SCP (short for "Secure, Contain, Protect") foundation aims to contain
 so-called SCPs that are anomalous fictional objects.
 
 The articles about SCPs follow a fixed format that potentially makes it possible
@@ -30,9 +30,8 @@ Important make targets
 
 The following new or modified make targets are available.
 
-`make data/raw` - Executes the web crawler run to fetch data.
-`make clean` - Deletes compiled Python files and `__pycache__` directories
-(standard behavior) as well as log files (new behavior)
+- `make data/raw` - Executes the web crawler run to fetch data.
+- `make clean` - Deletes compiled Python files and `__pycache__` directories (standard behavior) as well as log files (new behavior)
 
 
 Project Organization
