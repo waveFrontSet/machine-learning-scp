@@ -1,7 +1,39 @@
-SCP
+Classifying SCP articles
 ==============================
 
-Classifying SCP articles
+This Machine Learning project aims at building a Machine Learning model that is
+able to classify SCP articles by their Object Class.
+
+About the accompanying blog posts
+------------
+
+This project is documented through various blog posts. At the moment, the
+following have been written:
+- <a href="https://paul-grillenberger.de/2019/11/10/a-machine-learning-project-classifying-scps-overview/">Overview</a>
+- Building a web crawler
+
+Furthermore, the git tags point at exercises and their solutions that are
+referenced in the blog posts.
+
+About SCPs
+------------
+
+The web site http://www.scp-wiki.net/ is a site for collaborative writing. The
+fictional SCP (short for "Secure, Contain, Protect) foundation aims to contain
+so-called SCPs that are anomalous fictional objects.
+
+The articles about SCPs follow a fixed format that potentially makes it possible
+to predict the Object Class from the article text.
+
+Important make targets
+------------
+
+The following new or modified make targets are available.
+
+`make data/raw` - Executes the web crawler run to fetch data.
+`make clean` - Deletes compiled Python files and `__pycache__` directories
+(standard behavior) as well as log files (new behavior)
+
 
 Project Organization
 ------------
