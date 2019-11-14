@@ -60,11 +60,12 @@ def crawl(filepath, number):
 @click.argument("filepath", type=click.Path(exists=True))
 @click.option("--lower", default=2, help="Lower bound of SCP articles to crawl")
 @click.option("--upper", default=1000, help="Upper bound of SCP articles to crawl")
-def crawl_for(lower, upper, filepath):
+@click.option("--max_workers", default=64, help="Max number of threads to use")
+def crawl_for(max_workers, lower, upper, filepath):
     logger.debug(
         "Called with lower = %s, upper = %s, filepath = %s", lower, upper, filepath
     )
-    with ThreadPoolExecutor(max_workers=64) as executor:
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(
             crawl, (filepath for _ in range(lower, upper)), range(lower, upper)
         )
