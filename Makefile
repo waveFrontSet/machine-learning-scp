@@ -26,12 +26,13 @@ requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
 ## Make Dataset
-data: requirements
+data: requirements data/raw
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
 
-## Delete all compiled Python files
+## Delete all compiled Python files and log files
 clean:
 	find . -type f -name "*.py[co]" -delete
+	find . -type f -name "*.log" -delete
 	find . -type d -name "__pycache__" -delete
 
 ## Lint using flake8
@@ -80,7 +81,9 @@ test_environment:
 # PROJECT RULES                                                                 #
 #################################################################################
 
-
+data/raw: src/data/webcrawl.py
+	$(PYTHON_INTERPRETER) src/data/webcrawl.py data/raw
+	touch data/raw
 
 #################################################################################
 # Self Documenting Commands                                                     #
