@@ -82,6 +82,7 @@ test_environment:
 #################################################################################
 
 data/raw: src/data/webcrawl.py
+	mkdir -p data/raw
 	$(PYTHON_INTERPRETER) src/data/webcrawl.py data/raw
 
 #################################################################################
