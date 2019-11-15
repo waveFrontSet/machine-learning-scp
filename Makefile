@@ -83,7 +83,6 @@ test_environment:
 
 data/raw: src/data/webcrawl.py
 	$(PYTHON_INTERPRETER) src/data/webcrawl.py data/raw
-	touch data/raw
 
 #################################################################################
 # Self Documenting Commands                                                     #
