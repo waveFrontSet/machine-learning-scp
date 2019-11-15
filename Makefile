@@ -25,6 +25,9 @@ requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
+## General setup
+setup: logging_config.ini create_environment
+
 ## Make Dataset
 data: requirements data/raw
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
@@ -84,6 +87,9 @@ test_environment:
 data/raw: src/data/webcrawl.py
 	mkdir -p data/raw
 	$(PYTHON_INTERPRETER) src/data/webcrawl.py data/raw
+
+logging_config.ini:
+	cp logging_config_template.ini logging_config.ini
 
 #################################################################################
 # Self Documenting Commands                                                     #
