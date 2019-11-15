@@ -4,6 +4,23 @@ Classifying SCP articles
 This Machine Learning project aims at building a Machine Learning model that is
 able to classify SCP articles by their Object Class.
 
+Quickstart
+------------
+
+The `setup` `make` target will create a virtual environment as well as copy the
+logging configuration file from the template.
+``` sh
+make setup
+```
+
+Then, to fetch the SCP articles via the web crawler, use the `data` target.
+
+``` sh
+make data
+```
+
+Explore the data in `data/raw`. That's all for now.
+
 About the accompanying blog posts
 ------------
 
