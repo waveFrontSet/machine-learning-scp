@@ -27,7 +27,7 @@ About the accompanying blog posts
 This project is documented through various blog posts. At the moment, the
 following have been written:
 - <a href="https://paul-grillenberger.de/2019/11/10/a-machine-learning-project-classifying-scps-overview/">Overview</a>
-- Building a web crawler
+- <a href="https://paul-grillenberger.de/2019/11/24/classifying-scps-part-1-building-a-web-crawler/">Building a web crawler</a>
 
 Furthermore, the git tags point at exercises and their solutions that are
 referenced in the blog posts.
