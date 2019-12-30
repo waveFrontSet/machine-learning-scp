@@ -3,7 +3,7 @@ import io
 from unittest.mock import Mock, mock_open, patch
 from click.testing import CliRunner
 from bs4 import BeautifulSoup
-from .webcrawl import (
+from src.data.webcrawl import (
     construct_url,
     filter_for_page_content,
     split_into_label_and_text,

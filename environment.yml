@@ -1,0 +1,26 @@
+name: scp
+channels:
+  - default
+  - conda-forge
+dependencies:
+  - flake8
+  - pip
+  - setuptools
+  - wheel
+  - pandas
+  - scipy
+  - scikit-learn
+  - click
+  - pytest
+  - jupyterlab
+  - nbconvert
+  - black
+  - requests
+  - pip:
+      - awscli
+      - python-dotenv
+      - pytest-sugar
+      - pytest-cov
+      - bs4
+      - -e .
+  - python>=3.6

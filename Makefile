@@ -20,10 +20,12 @@ endif
 # COMMANDS                                                                      #
 #################################################################################
 
-## Install Python Dependencies
-requirements: test_environment
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+## Install or Update Python Dependencies
+requirements: environment.lock
+
+environment.lock: environment.yml
+	conda env update -n $(PROJECT_NAME) -f $<
+	conda env export -n $(PROJECT_NAME) | grep -v "prefix:" > $@
 
 ## General setup
 setup: logging_config.ini create_environment
@@ -76,17 +78,13 @@ else
 	@echo ">>> New virtualenv created. Activate with:\nworkon $(PROJECT_NAME)"
 endif
 
-## Test python environment is setup correctly
-test_environment:
-	$(PYTHON_INTERPRETER) test_environment.py
-
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
 
 data/raw: src/data/webcrawl.py
 	mkdir -p data/raw
-	$(PYTHON_INTERPRETER) src/data/webcrawl.py data/raw
+	$(PYTHON_INTERPRETER) src/data/webcrawl.py data/raw --upper 3000
 
 logging_config.ini:
 	cp logging_config_template.ini logging_config.ini
