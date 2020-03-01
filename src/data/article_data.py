@@ -36,6 +36,29 @@ class Article(object):
             raise ValueError(f"Unknown label '{orig_label}'!")
         self._label = labels.pop()
 
+    PROCEDURES_START = "Special Containment Procedures:"
+    DESC_STARTS = ("Description:", "Summary:")
+
+    @classmethod
+    def _extract_procedures(cls, text):
+        name, *rest_list = text.split(cls.PROCEDURES_START)
+        rest = "".join(rest_list)
+        if not rest:
+            raise RuntimeError(f"Procedures could not be extracted from: {text}")
+        return name, rest
+
+    @classmethod
+    def _extract_description(cls, rest):
+        desc = None
+        for desc_start in cls.DESC_STARTS:
+            procedures, *desc_list = rest.split(desc_start)
+            if desc_list:
+                desc = "".join(desc_list)
+                break
+        if not desc:
+            raise RuntimeError(f"Description could not be extracted from: {rest}")
+        return procedures, desc
+
     @classmethod
     def from_text(cls, lines):
         """
@@ -48,8 +71,9 @@ class Article(object):
         """
         label, *text = lines
         text = "".join(text)
-        name, rest = text.split("Special Containment Procedures:")
-        procedures, desc = rest.split("Description:")
+        name, rest = cls._extract_procedures(text)
+        procedures, desc = cls._extract_description(rest)
+        logger.debug("Procedures: %s, Desc: %s", procedures, desc)
         return cls(label, name, procedures, desc)
 
     def to_dict(self):
