@@ -70,3 +70,9 @@ class Article(object):
             if len(self.desc) > 0
             else 0,
         }
+
+    def __repr__(self):
+        return (
+            f"Article(label={self.label}, name={self.name}, "
+            + "procedures={self.procedures}, desc={self.desc})"
+        )
