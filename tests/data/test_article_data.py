@@ -34,6 +34,19 @@ def test_from_text():
     assert article.desc == "Something else..."
 
 
+def test_from_text_with_no_name():
+    procedures = [
+        "Special Containment Procedures: Something...",
+        "Something part two...",
+    ]
+    description = "Description: Something else..."
+    article = Article.from_text(["SAFE", *procedures, description])
+    assert article.label == "SAFE"
+    assert article.name == ""
+    assert article.procedures == "Something...Something part two..."
+    assert article.desc == "Something else..."
+
+
 def test_to_dict_trivial_article(article):
     d = article.to_dict()
     assert "Label" in d
