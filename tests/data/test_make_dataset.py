@@ -13,6 +13,11 @@ Item #: 003\n
 Special Containment Procedures: Something something...\n
 Description: Something else...\n
 """,
+    "scp-004.txt": """SAFE\n
+Item #: 004\n
+Special Containment Procedures: Something something...\n
+Conclusion: Something else...\n
+""",
 }
 
 

@@ -60,6 +60,28 @@ def test_from_text_with_summary():
     assert article.desc == "Something else..."
 
 
+def test_from_text_with_no_desc():
+    procedures = [
+        "Special Containment Procedures: Something...",
+        "Something part two...",
+    ]
+    description = "Conclusion: Something else..."
+    with pytest.raises(RuntimeError) as excinfo:
+        Article.from_text(["SAFE", *procedures, description])
+    assert "Description" in str(excinfo)
+
+
+def test_from_text_with_no_special_containment_procedures():
+    procedures = [
+        "Object Containment Procedures: Something...",
+        "Something part two...",
+    ]
+    description = "Description: Something else..."
+    with pytest.raises(RuntimeError) as excinfo:
+        Article.from_text(["SAFE", *procedures, description])
+    assert "Procedures" in str(excinfo)
+
+
 def test_to_dict_trivial_article(article):
     d = article.to_dict()
     assert "Label" in d

@@ -28,6 +28,9 @@ def main(input_filepath, output_filepath):
             except ValueError as e:
                 logger.warning("ValueError in file %s: %s", file, e)
                 continue
+            except RuntimeError:
+                logger.exception("RuntimeError in file %s", file)
+                continue
         df = df.append(article.to_dict(), ignore_index=True)
     logger.info("DataFrame extracted. Writing to data.json in %s", output_filepath)
     df.to_json(Path(output_filepath) / "data.json")
