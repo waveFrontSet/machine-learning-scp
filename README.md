@@ -13,13 +13,14 @@ logging configuration file from the template.
 make setup
 ```
 
-Then, to fetch the SCP articles via the web crawler, use the `data` target.
+Then, to fetch the SCP articles via the web crawler and preprocess them, use the `data` target.
 
 ``` sh
 make data
 ```
 
-Explore the data in `data/raw`. That's all for now.
+Explore the data in `data/processed`. If you want to be inspired, take a look at
+<a href="https://github.com/waveFrontSet/machine-learning-scp/tree/master/notebooks">my Jupyter Notebooks</a>.
 
 About the accompanying blog posts
 ------------
@@ -28,6 +29,9 @@ This project is documented through various blog posts. At the moment, the
 following have been written:
 - <a href="https://paul-grillenberger.de/2019/11/10/a-machine-learning-project-classifying-scps-overview/">Overview</a>
 - <a href="https://paul-grillenberger.de/2019/11/24/classifying-scps-part-1-building-a-web-crawler/">Building a web crawler</a>
+- <a
+  href="https://paul-grillenberger.de/2020/03/07/classifying-scps-part-2-data-transformation-and-preprocessing/">Data
+  transformation (TF-IDF) and preprocessing</a>
 
 Furthermore, the git tags point at exercises and their solutions that are
 referenced in the blog posts.
@@ -48,6 +52,8 @@ Important make targets
 The following new or modified make targets are available.
 
 - `make data/raw` - Executes the web crawler run to fetch data.
+- `make data` - Check requirements, execute the web crawler (if necessary) and
+  preprocess the raw data.
 - `make clean` - Deletes compiled Python files and `__pycache__` directories (standard behavior) as well as log files (new behavior)
 
 
